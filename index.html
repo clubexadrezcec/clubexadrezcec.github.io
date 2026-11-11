@@ -54,37 +54,31 @@ header.top #themeToggle{position:static!important;top:auto!important;right:auto!
 
 #registrationPrintSheet{display:none}
 @media print{
-  @page{size:A4 portrait;margin:10mm}
-  body.print-blank-form{background:#fff!important;color:#333!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-  body.print-blank-form .section:not(#registration){display:none!important}
-  body.print-blank-form .top,
-  body.print-blank-form .tabs,
-  body.print-blank-form .hero,
-  body.print-blank-form #authPanel,
-  body.print-blank-form #accessPanel,
-  body.print-blank-form .footer,
-  body.print-blank-form #systemNotice{display:none!important}
-  body.print-blank-form .shell{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
-  body.print-blank-form #registration{display:block!important;position:static!important;margin:0!important;padding:0!important}
-  body.print-blank-form #registration>*{display:none!important}
-  body.print-blank-form #registrationPrintSheet{
-    display:block!important;visibility:visible!important;position:fixed!important;
-    inset:0!important;width:auto!important;height:auto!important;overflow:visible!important;
-    box-sizing:border-box!important;padding:8mm!important;margin:0!important;
+  @page{size:A4 portrait;margin:12mm}
+  html,body{width:100%!important;min-height:0!important;margin:0!important;padding:0!important;background:#fff!important}
+  body.print-blank-form{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body.print-blank-form>*:not(#registrationPrintSheet){display:none!important}
+  body.print-blank-form>#registrationPrintSheet{
+    display:block!important;position:static!important;visibility:visible!important;
+    width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;
+    overflow:visible!important;box-sizing:border-box!important;margin:0!important;padding:8mm!important;
     background:#fff!important;color:#333!important;font:10.5pt/1.35 Arial,sans-serif!important;
     border:1.5pt solid #f28c28!important;border-radius:3mm!important;
+    break-after:avoid!important;page-break-after:avoid!important;
   }
-  body.print-blank-form #registrationPrintSheet *{visibility:visible!important;box-sizing:border-box!important}
-  #registrationPrintSheet .print-logo{width:52mm;height:25mm;margin:0 auto 4mm;display:flex;justify-content:center;align-items:center}#registrationPrintSheet .print-logo svg{width:100%;height:100%;display:block}#registrationPrintSheet h1{color:#686868!important;text-align:center;font-size:15pt;letter-spacing:.5px;margin:0 0 2px}
+  body.print-blank-form>#registrationPrintSheet *{visibility:visible!important;box-sizing:border-box!important}
+  #registrationPrintSheet .print-logo{width:52mm;height:25mm;margin:0 auto 4mm;display:flex;justify-content:center;align-items:center}
+  #registrationPrintSheet .print-logo svg{width:100%;height:100%;display:block}
+  #registrationPrintSheet h1{color:#686868!important;text-align:center;font-size:15pt;letter-spacing:.5px;margin:0 0 2px}
   #registrationPrintSheet h2{color:#f47b16!important;border-bottom:2px solid #f47b16;padding-bottom:2mm;text-align:center;font-size:12pt;margin:0 0 3px}
-  #registrationPrintSheet .print-intro{text-align:center;color:#666!important;font-size:9pt;margin:0 0 12mm}
-  #registrationPrintSheet .print-field{display:flex;align-items:flex-end;gap:7px;margin:0 0 8mm;break-inside:avoid}
+  #registrationPrintSheet .print-intro{text-align:center;color:#666!important;font-size:9pt;margin:0 0 8mm}
+  #registrationPrintSheet .print-field{display:flex;align-items:flex-end;gap:7px;margin:0 0 6mm;break-inside:avoid;page-break-inside:avoid}
   #registrationPrintSheet .print-field strong{white-space:nowrap;color:#333!important;font-size:10pt}
   #registrationPrintSheet .print-field span{display:block;border-bottom:1px solid #777;flex:1;height:7mm}
-  #registrationPrintSheet .print-experience{margin-top:5mm;break-inside:avoid}
+  #registrationPrintSheet .print-experience{margin-top:4mm;break-inside:avoid;page-break-inside:avoid}
   #registrationPrintSheet .print-experience>strong{color:#333!important}
-  #registrationPrintSheet .print-experience p{display:inline-block;margin:5mm 7mm 0 0;color:#333!important}
-  #registrationPrintSheet .print-signature{margin:19mm auto 0;width:65%;border-top:1px solid #777;text-align:center;padding-top:2mm;color:#555!important;font-size:9pt}
+  #registrationPrintSheet .print-experience p{display:inline-block;margin:4mm 7mm 0 0;color:#333!important}
+  #registrationPrintSheet .print-signature{margin:14mm auto 0;width:65%;border-top:1px solid #777;text-align:center;padding-top:2mm;color:#555!important;font-size:9pt;break-inside:avoid}
 }</style>
 <script>
 (function(){
@@ -497,6 +491,6 @@ db.auth.onAuthStateChange(async(_event,session)=>{currentUser=session?.user||nul
 
 $('registrationForm').addEventListener('submit',e=>{e.preventDefault();const experience=document.querySelector('input[name="regExperience"]:checked');if(!experience){toast('Marque uma opção de experiência com xadrez.');return;}const year=Number($('regBirthYear').value);if(!Number.isInteger(year)||year<1900||year>2026){toast('Informe um ano de nascimento válido.');return;}const headers=['Nome','Nome do responsável','Telefone','Telefone do responsável','Ano de nascimento','Turma','Experiência com xadrez'];const values=[$('regName').value.trim(),$('regGuardian').value.trim(),$('regPhone').value.trim(),$('regGuardianPhone').value.trim(),String(year),$('regClass').value.trim(),experience.value];const csv=[headers,values].map(row=>row.map(value=>'"'+String(value).replace(/"/g,'""')+'"').join(';')).join('\\r\\n');const blob=new Blob(['\\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='ficha-inscricao-'+values[0].normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.csv';document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);toast('Ficha exportada com sucesso!');});
 
-document.getElementById('printBlankRegistration').addEventListener('click',()=>{document.body.classList.add('print-blank-form');window.print();});window.addEventListener('afterprint',()=>document.body.classList.remove('print-blank-form'));
+(()=>{const sheet=document.getElementById('registrationPrintSheet');let parent=null,next=null;document.getElementById('printBlankRegistration').addEventListener('click',()=>{parent=sheet.parentNode;next=sheet.nextSibling;document.body.appendChild(sheet);document.body.classList.add('print-blank-form');window.print();});window.addEventListener('afterprint',()=>{document.body.classList.remove('print-blank-form');if(parent){parent.insertBefore(sheet,next&&next.parentNode===parent?next:null);parent=null;next=null;}});})();
 </script>
 </body></html>
