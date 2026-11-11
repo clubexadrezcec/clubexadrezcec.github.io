@@ -53,8 +53,39 @@ header.top #themeToggle{position:static!important;top:auto!important;right:auto!
 #dailyBoard{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));width:min(100%,420px);aspect-ratio:1;margin:14px auto;border:4px solid #5c3b25;border-radius:8px;overflow:hidden;box-shadow:0 8px 22px #0004}#dailyBoard .chess-square{padding:0!important;border:0!important;border-radius:0!important;aspect-ratio:1;display:grid;place-items:center;font-family:serif;font-size:clamp(22px,5vw,42px);line-height:1;color:#171717;min-width:0}#dailyBoard .light-square{background:#f0d9b5!important}#dailyBoard .dark-square{background:#b58863!important}#dailyBoard .chess-square.selected-square{outline:4px solid #f28c28;outline-offset:-4px;background:#f7c75d!important}#dailyBoard .chess-square:focus-visible{outline:4px solid #2676d2;outline-offset:-4px;z-index:1}#boardMessage{text-align:center;display:block;min-height:22px;color:var(--muted);font-size:12px;margin:6px 0 10px}#dailyBoardTools{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 
 #registrationPrintSheet{display:none}
-@media print{body.print-blank-form{background:#fff!important;color:#111!important}body.print-blank-form .shell{display:block!important;max-width:none!important;margin:0!important;padding:0!important}body.print-blank-form .shell>*{visibility:hidden!important}body.print-blank-form #registration{display:block!important;visibility:visible!important;position:static!important}body.print-blank-form #registration>*{visibility:hidden!important}body.print-blank-form #registrationPrintSheet{display:block!important;visibility:visible!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;padding:12mm!important;background:#fff!important;color:#111!important;font:12pt/1.5 Arial,sans-serif!important}body.print-blank-form #registrationPrintSheet *{visibility:visible!important;color:#111!important}#registrationPrintSheet h1{text-align:center;font-size:17pt;margin:0 0 4px}#registrationPrintSheet h2{text-align:center;font-size:15pt;margin:0 0 8px}#registrationPrintSheet .print-intro{text-align:center;margin:0 0 25px}#registrationPrintSheet .print-field{display:flex;align-items:flex-end;gap:8px;margin:22px 0}#registrationPrintSheet .print-field strong{white-space:nowrap}#registrationPrintSheet .print-field span{display:block;border-bottom:1px solid #111;flex:1;height:22px}#registrationPrintSheet .print-experience{margin-top:28px}#registrationPrintSheet .print-experience p{margin:10px 0 10px 18px}#registrationPrintSheet .print-signature{margin:55px auto 0;width:65%;border-top:1px solid #111;text-align:center;padding-top:6px}}
-</style>
+@media print{
+  @page{size:A4 portrait;margin:10mm}
+  body.print-blank-form{background:#fff!important;color:#333!important}
+  body.print-blank-form .section:not(#registration){display:none!important}
+  body.print-blank-form .top,
+  body.print-blank-form .tabs,
+  body.print-blank-form .hero,
+  body.print-blank-form #authPanel,
+  body.print-blank-form #accessPanel,
+  body.print-blank-form .footer,
+  body.print-blank-form #systemNotice{display:none!important}
+  body.print-blank-form .shell{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+  body.print-blank-form #registration{display:block!important;position:static!important;margin:0!important;padding:0!important}
+  body.print-blank-form #registration>*{display:none!important}
+  body.print-blank-form #registrationPrintSheet{
+    display:block!important;visibility:visible!important;position:fixed!important;
+    inset:0!important;width:auto!important;height:auto!important;overflow:visible!important;
+    box-sizing:border-box!important;padding:8mm!important;margin:0!important;
+    background:#fff!important;color:#333!important;font:10.5pt/1.35 Arial,sans-serif!important;
+    border:1.5pt solid #f28c28!important;border-radius:3mm!important;
+  }
+  body.print-blank-form #registrationPrintSheet *{visibility:visible!important;box-sizing:border-box!important}
+  #registrationPrintSheet h1{color:#333!important;text-align:center;font-size:15pt;letter-spacing:.5px;margin:0 0 2px}
+  #registrationPrintSheet h2{color:#f28c28!important;text-align:center;font-size:12pt;margin:0 0 3px}
+  #registrationPrintSheet .print-intro{text-align:center;color:#666!important;font-size:9pt;margin:0 0 12mm}
+  #registrationPrintSheet .print-field{display:flex;align-items:flex-end;gap:7px;margin:0 0 8mm;break-inside:avoid}
+  #registrationPrintSheet .print-field strong{white-space:nowrap;color:#333!important;font-size:10pt}
+  #registrationPrintSheet .print-field span{display:block;border-bottom:1px solid #777;flex:1;height:7mm}
+  #registrationPrintSheet .print-experience{margin-top:5mm;break-inside:avoid}
+  #registrationPrintSheet .print-experience>strong{color:#333!important}
+  #registrationPrintSheet .print-experience p{display:inline-block;margin:5mm 7mm 0 0;color:#333!important}
+  #registrationPrintSheet .print-signature{margin:19mm auto 0;width:65%;border-top:1px solid #777;text-align:center;padding-top:2mm;color:#555!important;font-size:9pt}
+}</style>
 <script>
 (function(){
   const root=document.documentElement;
